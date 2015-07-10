@@ -31,7 +31,7 @@ def parse_file(input_file):
     output_base_name = input_file.split('.')[0]
     output_name = '{0}.csv.gz'.format(output_base_name)
     text_factory.save_session_to_csv(session, output_name)
-    print("[Complete] ProtoBuf File Generated Successfully!")
+    print("[Complete] Output File Generated Successfully!")
 
 
 if __name__ == '__main__':
