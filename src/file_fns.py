@@ -33,7 +33,9 @@ def file_date_from_rfeye_name(filename):
         return 'Unknown'
     else:
         file_date = '20{0}'.format(numbers[0][:6])
-        return datetime.strptime(file_date, "%Y%m%d")
+        file_time = '{0}'.format(numbers[1])
+        file_datetime = '{0}{1}'.format(file_date, file_time)
+        return datetime.strptime(file_datetime, "%Y%m%d%H%M%S")
 
 
 def file_date_from_hdf_name(filename):
