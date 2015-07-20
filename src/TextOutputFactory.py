@@ -28,16 +28,21 @@ class TextOutputFactory:
 
     @staticmethod
     def _write_header(session, output_file):
-        output_file.write('File Name,File Date,Location,Band Count\n')
-        output_file.write('{0},{1},{2},{3}\n'.format(session.filename, session.file_date, session.location, session.get_band_count()))
+        header = 'File Name,File Date,Location,Band Count\n'
+        header += '{0},{1},{2},{3}\n'.format(session.filename, session.file_date, session.location, session.get_band_count())
+        header += '\n'
+        output_file.write(header)
 
     @staticmethod
     def _write_band(band, output_file):
-        output_file.write('Start Frequency,Stop Frequency,Resolution\n')
-        output_file.write('{0},{1},{2}\n'.format(band.start_freq, band.stop_freq, band.resolution))
-        output_file.write('Start Time,Stop Time,Data{0}\n'.format(''.join([',']*band.resolution)))
+        band_data = 'Start Frequency,Stop Frequency,Resolution\n'
+        band_data += '{0},{1},{2}\n'.format(band.start_freq, band.stop_freq, band.resolution)
+        band_data += '\n'
+        band_data += 'Start Time,Stop Time,Data\n'
         for scan in band.scans:
-            output_file.write('{0},{1},{2}\n'.format(scan.start_time, scan.stop_time, ','.join(str(x) for x in scan.measurements)))
+            band_data += '{0},{1},{2}\n'.format(scan.start_time, scan.stop_time, ','.join(str(x) for x in scan.measurements))
+        band_data += '\n'
+        output_file.write(band_data)
 
     @staticmethod
     def _write_footer(output_file):
