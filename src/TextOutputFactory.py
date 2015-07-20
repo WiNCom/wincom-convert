@@ -35,7 +35,7 @@ class TextOutputFactory:
     def _write_band(band, output_file):
         output_file.write('Start Frequency,Stop Frequency,Resolution\n')
         output_file.write('{0},{1},{2}\n'.format(band.start_freq, band.stop_freq, band.resolution))
-        output_file.write('Start Time,Stop Time,Data\n')
+        output_file.write('Start Time,Stop Time,Data{0}\n'.format(''.join([',']*band.resolution)))
         for scan in band.scans:
             output_file.write('{0},{1},{2}\n'.format(scan.start_time, scan.stop_time, ','.join(str(x) for x in scan.measurements)))
 
