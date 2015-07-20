@@ -281,16 +281,3 @@ def read_all_data(input_file):
             break
 
     return header, body
-
-
-def location_from_rfeye_name(filename):
-    split_file = filename.split('_')
-    return '{0}_{1}'.format(split_file[2], split_file[3])
-
-
-def file_date_from_rfeye_name(filename):
-    numbers = re.findall(r"\d+", filename)
-    if len(numbers) == 0:
-        return 'Unknown'
-    else:
-        return '20{0}'.format(numbers[0][:6])

@@ -61,16 +61,3 @@ def get_all_bands(data_file):
         all_bands.append(current_band)
 
     return all_bands
-
-
-def location_from_hdf_name(filename):
-    split_file = filename.split('_')
-    return split_file[0]
-
-
-def file_date_from_hdf_name(filename):
-    numbers = re.findall(r"\d+", filename)
-    if len(numbers) == 0:
-        return 'Unknown'
-    else:
-        return numbers[0][:8]
