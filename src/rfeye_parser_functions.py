@@ -204,12 +204,19 @@ def read_structure(input_file, type_sequence):
 
         value = struct.unpack(ctype, chunk)
 
+        if variable_name == 'data':
+            value = decode_measurement_data(data['level'], value)
+
         if len(value) == 1:
             value = value[0]
 
         data[variable_name] = value
 
     return data, checksum
+
+
+def decode_measurement_data(offset, encoded_values):
+    return map(lambda x: (x/2.0) + offset - 127.5, encoded_values)
 
 
 def read_body(input_file, block_type):

@@ -36,6 +36,7 @@ def parse_file(input_file):
 
 if __name__ == '__main__':
     arguments = sys.argv[1:]
+    arguments = ['C:/Users/ericf_000/Documents/Data/Wincom/RFeye/RFeye_WiFiUS_Harbor_Point_131209_001530.bin']
     if len(arguments) != 1:
         print("[Error] You didn't include any arguments!\n" +
               "[Usage] python wincom-convert.py /your/input_file/here")

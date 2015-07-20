@@ -1,5 +1,6 @@
 import gzip
 
+
 class TextOutputFactory:
     def __init__(self):
         pass
@@ -25,16 +26,19 @@ class TextOutputFactory:
         print '[Writing] Writing Footer...'
         self._write_footer(output_file)
 
-    def _write_header(self, session, output_file):
-        output_file.write('[Header]\n')
+    @staticmethod
+    def _write_header(session, output_file):
+        output_file.write('File Name,File Date,Location,Band Count\n')
         output_file.write('{0},{1},{2},{3}\n'.format(session.filename, session.file_date, session.location, session.get_band_count()))
 
-    def _write_band(self, band, output_file):
-        output_file.write('[Band]\n')
+    @staticmethod
+    def _write_band(band, output_file):
+        output_file.write('Start Frequency,Stop Frequency,Resolution\n')
         output_file.write('{0},{1},{2}\n'.format(band.start_freq, band.stop_freq, band.resolution))
+        output_file.write('Start Time,Stop Time,Data\n')
         for scan in band.scans:
             output_file.write('{0},{1},{2}\n'.format(scan.start_time, scan.stop_time, ','.join(str(x) for x in scan.measurements)))
 
-    def _write_footer(self, output_file):
-        output_file.write('[Footer]\n')
-        output_file.write('Total-Scans,{0}\n'.format('?'))
+    @staticmethod
+    def _write_footer(output_file):
+        pass
