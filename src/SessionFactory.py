@@ -26,5 +26,6 @@ class SessionFactory:
         bands = parse_rfeye_file(data_file)
         return RecordingSession(filename, file_date, location, bands)
 
-    def filename_from_path(self, filepath):
+    @staticmethod
+    def filename_from_path(filepath):
         return path.split(filepath)[1]

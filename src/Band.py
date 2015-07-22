@@ -1,3 +1,4 @@
+import numpy as np
 from Scan import Scan
 
 
@@ -8,21 +9,13 @@ class Band:
         self.resolution = resolution
         self.scans = []
 
-    def get_starting_frequency(self):
-        return self.start_freq
-
-    def get_stopping_frequency(self):
-        return self.stop_freq
-
-    def get_resolution(self):
-        return self.resolution
-
     def to_string(self):
         return "Start: {0} Hz\nStop: {1} Hz\nScan Resolution: {2}\n".format(self.start_freq,
                                                                             self.stop_freq, self.resolution)
 
-    def to_list(self):
-        return [self.start_freq, self.stop_freq, self.resolution]
+    def to_numpy(self):
+        band_type = np.dtype([('Start Frequency', np.int32), ('Stop Frequency', np.int32), ('Resolution', np.int32)])
+        return np.array((self.start_freq, self.stop_freq, self.resolution), dtype=band_type)
 
     def contains_frequency(self, test_frequency):
         if self.start_freq <= test_frequency <= self.stop_freq:
@@ -76,40 +69,8 @@ class Band:
                 scans_including.append((scan.get_start_datetime(), scan.get_stop_datetime()))
         return scans_including
 
-    def get_plot_array(self):
-        time_slices = []
-        powers = []
-        time_slice = 0
-        for scan in self.scans:
-            if scan.get_start_time() is None:
-                time_slices.append(time_slice)
-                time_slice += 1
-            else:
-                time_slices.append(scan.get_start_time())
-            powers.append(scan.get_avg_measurement())
-        return time_slices, powers
-
-    def to_data_array(self):
+    def scans_to_numpy(self):
         data = []
-        scan_count = 1
         for scan in self.scans:
-            row = []
-            row.append(scan_count)
-            row.append(scan.get_start_datetime())
-            row.append(scan.get_stop_datetime())
-            row += scan.get_measurements()
-            scan_count += 1
-            data.append(row)
-        return data
-
-    def to_avro(self):
-        scans = []
-        for scan in self.scans:
-            scans.append(scan.to_avro())
-
-        return dict({
-           'start_freq': self.start_freq,
-           'stop_freq': self.stop_freq,
-           'resolution': self.resolution,
-           'scans': scans,
-        })
+            data.append(scan.to_numpy())
+        return np.array(data)

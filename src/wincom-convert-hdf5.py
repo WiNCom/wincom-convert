@@ -2,13 +2,13 @@ import sys
 
 from os import path
 from SessionFactory import SessionFactory
-from TextOutputFactory import TextOutputFactory
+from HDFOutputFactory import HDFOutputFactory
 
 
 def parse_file(input_file):
     print("[Processing] Creating Session Factory")
     session_factory = SessionFactory()
-    text_factory = TextOutputFactory()
+    hdf_factory = HDFOutputFactory()
     parse_map = {
         'bin': session_factory.session_from_rfeye_file,
         'hdf5': session_factory.session_from_hdf_file,
@@ -29,8 +29,8 @@ def parse_file(input_file):
 
     print("[Processing] File Successfully Parsed")
     output_base_name = input_file.split('.')[0]
-    output_name = '{0}.csv.gz'.format(output_base_name)
-    text_factory.save_session_to_csv(session, output_name)
+    output_name = '{0}.hdf5'.format(output_base_name)
+    hdf_factory.save_session_to_hdf5(session, output_name)
     print("[Complete] Output File Generated Successfully!")
 
 
